@@ -7,22 +7,19 @@ Created in August 2021
 import numpy as np
 from matplotlib import pyplot as plt
 import random
-'''Simulating a market with buyer and sellers. The buyer has an max amount it is willing to pay,
-the seller has a min amount that it is willing to sell, If the buyer does not sell then he will lower his min price,
-if the buyer cannot buy he will increase the max amount he is willing to pay. A normal distribution is used to
-initialise the min price that a seller is willing to sell and the max price a buyer is willing to buy  '''
+'''Read the README.md file in the repository for an explanation of the model'''
 percentage=0.02 #Proportion that buyer or seller is willing to adjust their price
 Days_till_bankrupt=5
 class seller():
     def __init__(self):
         self.min=abs(np.random.normal(100, 15))
-        self.sold=False #records if they sold in current day or not
-        self.hist=0 #adds a history to the seller, if they cant sell anything for a certain amount of days in a row then bankrupt 
+        self.sold=False #Records if they sold in current day or not
+        self.hist=0 #Adds a history to the seller, if they cant sell anything for a certain amount of days in a row then bankrupt 
         
 class buyer():
     def __init__(self):
         self.max=abs(np.random.normal(150, 15))
-        self.bought=False #records whether the buyer succesfully bought in the current day
+        self.bought=False #Records whether the buyer succesfully bought in the current day
 
 Days=100
 Total_buyers=50
@@ -103,8 +100,6 @@ def main():
     buyers=make_buyers(Total_buyers)
     sellers=make_sellers(Total_sellers)
     for i in range(Days):
-        #print('Days: ', i)
-    
         sellers=bankruptcy(sellers)
         prices=[]
         buyers, sellers=resetsold(buyers, sellers)
@@ -136,20 +131,13 @@ def main():
             if a.hist<0:
                 a.hist=0
                 
-                
         if len(prices)>0:
             average=mean(prices)
         else:
             average=0
-        av_prices.append(average)# av_prices is a measure of the average selling price if sold
+        av_prices.append(average)# av_prices is a measure of the average selling price if sold for each day
         sellers_left.append(len(sellers))
         days.append(i)
-        #print('days: ', i)
-        '''for i in sellers:
-            
-            print('min',i.min)
-        for i in buyers:
-            print('max', i.max)'''
     
     fig, axs=plt.subplots(2)
     axs[0].plot(days, av_prices)
@@ -163,17 +151,8 @@ def main():
     axs[1].set_ylabel('Sellers left')
     axs[1].set_xlabel('Days')#
     axs[1].set_title('Remaining buyers against number of trading days' )
-   # print(sellers_left)
-    
-    
-
-    
+       
 main()
-    
-'''For the case where there is an same amount of sellers and buyers are the same, a few of the sellers will get
-isolated and then the rest will have to compete so will become less sellers and more buyers and price will increase
-generally'''
-          
 
 
     
